@@ -93,8 +93,8 @@ import Layout from "../layouts/Layout.astro";
         window.location.href = "/";
       } else {
         // Login failed, show error message
-        const errorData = await response.json();
-        alert(`Login failed: ${errorData.message}`);
+        const errorData = await response.text();
+        alert(`Login failed: ${errorData}`);
       }
     });
 </script>
