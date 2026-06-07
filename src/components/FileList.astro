@@ -1,0 +1,105 @@
+---
+import { formatSize } from "../utils/formatSize";
+---
+
+<table id="file-list-table">
+    <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Size</th>
+            <th>Last Modified</th>
+        </tr>
+    </thead>
+    <div class="file-list" id="fileList"></div>
+    <tbody id="file-list-body">
+        <!-- rows dynamically inserted here -->
+        <!-- <tr><td>example.txt</td><td>1 KB</td><td>2023-01-01</td></tr> -->
+    </tbody>
+</table>
+
+<style>
+    #file-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    #file-list-table th,
+    #file-list-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #file-list-table th {
+        background-color: #f2f2f2;
+    }
+    #file-list-body {
+    }
+    .file-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    #fileList {
+        display: flex;
+        flex-direction: column;
+    }
+    .file-table-entry {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<script>
+    import { formatSize } from "../utils/formatSize";
+
+    let fileList = document.getElementById(
+        "file-list-body",
+    ) as HTMLTableSectionElement;
+    // POST /api/files/list to get list of files, then display in table
+    async function fetchFiles() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            console.error("No token found in localStorage");
+            return;
+        }
+        try {
+            const response = await fetch(
+                "http://localhost:8080/api/files/list",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            const data = await response.json();
+            for (const file of data.files) {
+                console.log(
+                    "Name:",
+                    file.filename,
+                    "Size:",
+                    formatSize(file.size),
+                );
+            }
+        } catch (error) {
+            console.error("Error fetching file list:", error);
+            return;
+        }
+    }
+    // if num elements = 0, display "No files found"
+
+    fetchFiles().then(() => {
+        if (fileList.children.length === 0) {
+            const noFilesRow = document.createElement("tr");
+            const noFilesCell = document.createElement("td");
+            noFilesCell.colSpan = 3;
+            noFilesCell.textContent = "No files found";
+            noFilesCell.style.textAlign = "center";
+            noFilesRow.appendChild(noFilesCell);
+            fileList.appendChild(noFilesRow);
+        }
+    });
+</script>
