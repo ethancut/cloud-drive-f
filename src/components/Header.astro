@@ -1,12 +1,13 @@
 ---
 import Register from "./Register.astro";
 import "../styles/header.css";
+const showRegister = true;
 ---
 
 <!-- if logged in, hide login/register buttons and display logout button. -->
 <header class="header" id="header">
   <div class="header__content">
-    <h1 class="header__title">EDrive</h1>
+    <h1 class="header__title">Drive</h1>
     <nav class="header__nav">
       <ul class="header__nav-list">
         <li class="header__nav-item"><a href="/">Home</a></li>
@@ -14,21 +15,44 @@ import "../styles/header.css";
         <li class="header__nav-item"><a href="/contact">Contact</a></li>
         <li class="header__nav-item"><a href="/login">Login</a></li>
         <li class="header__nav-item"><a href="/register">Register</a></li>
+        <li class="header__nav-item" id="dashboard-btn">
+          <a href="/dashboard">Dashboard</a>
+        </li>
+        <li class="header__nav-item" id="logout-btn">
+          <button>Logout</button>
+        </li>
       </ul>
     </nav>
   </div>
 </header>
+<style>
+  #logout-btn {
+    display: none;
+  }
+  #dashboard-btn {
+    display: none;
+  }
+</style>
 <script>
-  document.getElementById("open-register")?.addEventListener("click", () => {
-    if (
-      document.getElementById("register")?.style.getPropertyValue("display") ===
-      "block"
-    ) {
-      document.getElementById("register")?.style.setProperty("display", "none");
-    } else {
-      document
-        .getElementById("register")
-        ?.style.setProperty("display", "block");
-    }
-  });
+  if (localStorage.getItem("token")) {
+    document.querySelectorAll(".header__nav-item a").forEach((link) => {
+      const el = link as HTMLElement;
+      if (el.textContent === "Login" || el.textContent === "Register") {
+        el.style.display = "none";
+      }
+    });
+    const dashboardButton = document.getElementById(
+      "dashboard-btn",
+    ) as HTMLLIElement;
+    dashboardButton.style.display = "block";
+    const logoutBtn = document.getElementById(
+      "logout-btn",
+    ) as HTMLButtonElement;
+    logoutBtn.style.display = "block";
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.reload();
+    });
+    document.querySelector(".header__nav-list")?.appendChild(logoutBtn);
+  }
 </script>
