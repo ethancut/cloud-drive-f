@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Upload from "../components/Upload.astro";
+import FileList from "../components/FileList.astro";
+---
+
+<Layout>
+    <div class="main-content" id="dashboard" style="display:none">
+        <h1 class="h">Dashboard</h1>
+
+        <FileList />
+    </div>
+    <div id="upload-div">
+        <h3>Upload Files</h3>
+        <Upload />
+    </div>
+</Layout>
+
+<style>
+    #upload-div {
+        /*center the div */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-top: 2px dotted #ccc;
+        margin-top: 20px;
+    }
+    .main-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .h {
+        margin-top: 0;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+<script>
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "/login";
+    } else {
+        (document.getElementById("dashboard") as HTMLElement).style.display =
+            "block";
+    }
+</script>
