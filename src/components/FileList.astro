@@ -84,9 +84,43 @@ import "../styles/filelist.css";
                 const date = new Date(file.modtime);
                 ModTimeCell.textContent = date.toLocaleDateString();
 
+                DelCell.colSpan = 1;
+                DelButton.textContent = "X";
+
+                DelButton.addEventListener("click", async () => {
+                    const token = localStorage.getItem("token");
+                    if (!token) return;
+
+                    try {
+                        const response = await fetch(
+                            `http://localhost:8080/api/files/delete/${encodeURIComponent(file.filename)}`,
+                            {
+                                method: "DELETE",
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            },
+                        );
+                        if (response.ok) {
+                            fileRow.remove();
+                            checkList();
+                        } else {
+                            console.log(
+                                "Failed to delete file:",
+                                response.statusText,
+                            );
+                        }
+                    } catch (error) {
+                        console.log("Error deleting file:", error);
+                    }
+                });
+
                 fileRow.appendChild(NameCell);
                 fileRow.appendChild(SizeCell);
                 fileRow.appendChild(ModTimeCell);
+
+                DelCell.appendChild(DelButton);
+                fileRow.appendChild(DelCell);
 
                 fileTable?.appendChild(fileRow);
             }
@@ -96,7 +130,9 @@ import "../styles/filelist.css";
         }
     }
 
-    fetchFiles().then(() => {
+    fetchFiles().then(checkList);
+
+    async function checkList() {
         if (fileList.children.length === 0) {
             const noFilesRow = document.createElement("tr");
             const noFilesCell = document.createElement("td");
@@ -105,5 +141,5 @@ import "../styles/filelist.css";
             noFilesRow.appendChild(noFilesCell);
             fileList.appendChild(noFilesRow);
         }
-    });
+    }
 </script>
