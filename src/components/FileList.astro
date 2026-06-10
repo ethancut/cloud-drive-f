@@ -1,58 +1,38 @@
 ---
 import { formatSize } from "../utils/formatSize";
+import "../styles/filelist.css";
 ---
 
 <table id="file-list-table">
     <thead>
         <tr>
-            <th>Filename</th>
-            <th>Size</th>
-            <th>Last Modified</th>
+            <th colspan="3">Filename</th>
+            <th colspan="1">Size</th>
+            <th colspan="2">Last Modified</th>
         </tr>
     </thead>
     <tbody id="file-list-body">
         <!-- rows dynamically inserted here -->
-        <!-- <tr><td>example.txt</td><td>1 KB</td><td>2023-01-01</td></tr> -->
     </tbody>
 </table>
-
 <style>
-    #file-list-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
+    /* dynamic styles */
     :global(#file-list-table th, #file-list-table td) {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
-
-    #file-list-table th {
-        background-color: #f2f2f2;
-    }
-    #file-list-body {
-        text-align: left;
-    }
-    .file-list {
-        max-height: 300px;
-        overflow-y: auto;
-        text-align: left;
-    }
-    #fileList {
+    :global(.del-button) {
+        background-color: #d9453b;
         display: flex;
-        flex-direction: column;
-    }
-    .file-table-entry {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-        border-right: 1px solid #ccc;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        line-height: 1;
     }
 </style>
-
 <script>
     import { formatSize } from "../utils/formatSize";
 
@@ -90,7 +70,11 @@ import { formatSize } from "../utils/formatSize";
                 const SizeCell = document.createElement("td");
                 const ModTimeCell = document.createElement("td");
 
-                NameCell.colSpan = 1;
+                const DelCell = document.createElement("td");
+                const DelButton = document.createElement("button");
+                DelButton.className = "del-button";
+
+                NameCell.colSpan = 3;
                 NameCell.textContent = file.filename;
 
                 SizeCell.colSpan = 1;

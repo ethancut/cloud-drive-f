@@ -1,0 +1,33 @@
+#file-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+
+#file-list-table th {
+    background-color: #f2f2f2;
+}
+
+#file-list-body {
+    text-align: left;
+}
+
+.file-list {
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+#fileList {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-table-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ccc;
+}
