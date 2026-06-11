@@ -2,12 +2,20 @@
 import Register from "./Register.astro";
 import "../styles/header.css";
 const showRegister = true;
+import CloudIcon from "../static/cloud.svg";
 ---
 
 <header class="header" id="header">
   <div class="header__content">
     <h1 class="header__title">
-      <a href="/" style="text-decoration: none; color:inherit; ">Drive</a>
+      <span style="position: relative; display: flex; align-items: center;">
+        <CloudIcon
+          style="height: 1.4em; width: 1.4em; position: absolute; left: 0;"
+        />
+      </span>
+      <span style="padding-left: 1.2em;">
+        <a href="/" style="text-decoration: none; color:inherit; ">Drive </a>
+      </span>
     </h1>
     <nav class="header__nav">
       <ul class="header__nav-list">
@@ -20,7 +28,7 @@ const showRegister = true;
           <a href="/dashboard">Dashboard</a>
         </li>
         <li class="header__nav-item" id="logout-btn">
-          <button>Logout</button>
+          <button class="logout-btn">Logout</button>
         </li>
       </ul>
     </nav>
@@ -32,6 +40,14 @@ const showRegister = true;
   }
   #dashboard-btn {
     display: none;
+  }
+  .header__title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .header__title svg {
+    fill: white;
   }
 </style>
 <script>
