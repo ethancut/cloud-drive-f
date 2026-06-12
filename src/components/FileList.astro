@@ -18,19 +18,29 @@ import "../styles/filelist.css";
 <style>
     /* dynamic styles */
     :global(#file-list-table th, #file-list-table td) {
-        border: 1px solid #ddd;
-        padding: 8px;
         text-align: left;
     }
     :global(.del-button) {
-        background-color: #d9453b;
+        /* background-color: red; */
+        color: #5f6368;
+        border: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
         padding: 0;
         line-height: 1;
+        border-radius: 50%;
+        visibility: hidden;
+        font-size: 16px;
+    }
+    :global(#file-list-table tbody tr:hover .del-button) {
+        visibility: visible;
+    }
+    :global(.del-button:hover) {
+        background-color: #e8eaed;
+        color: #d93025;
     }
 </style>
 <script>
