@@ -8,14 +8,12 @@ import CloudIcon from "../static/cloud.svg";
 <header class="header" id="header">
   <div class="header__content">
     <h1 class="header__title">
-      <span style="position: relative; display: flex; align-items: center;">
-        <CloudIcon
-          style="height: 1.4em; width: 1.4em; position: absolute; left: 0;"
-        />
-      </span>
-      <span style="padding-left: 1.2em;">
-        <a href="/" style="text-decoration: none; color:inherit; ">Drive </a>
-      </span>
+      <CloudIcon style="height: 1.2em; width: 1.2em;" />
+      <a
+        href="/"
+        style=" font-size: 1.5rem; text-decoration: none; color: inherit; -webkit-text-stroke: 0.25rem black;  paint-order: stroke fill;"
+        >Drive</a
+      >
     </h1>
     <nav class="header__nav">
       <ul class="header__nav-list">
@@ -34,22 +32,7 @@ import CloudIcon from "../static/cloud.svg";
     </nav>
   </div>
 </header>
-<style>
-  #logout-btn {
-    display: none;
-  }
-  #dashboard-btn {
-    display: none;
-  }
-  .header__title {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .header__title svg {
-    fill: white;
-  }
-</style>
+
 <script>
   if (localStorage.getItem("token")) {
     document.querySelectorAll(".header__nav-item").forEach((item) => {

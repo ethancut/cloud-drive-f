@@ -38,118 +38,18 @@ import "../styles/filelist.css";
     :global(#file-list-table tbody tr:hover .del-button) {
         visibility: visible;
     }
+    :global(#file-list-table tbody tr:hover) {
+        background-color: #5f6368;
+    }
     :global(.del-button:hover) {
         background-color: #e8eaed;
         color: #d93025;
     }
+    :global(#file-list-table tbody tr:hover td) {
+        background-color: #f0fdfa; /* light teal tint */
+        cursor: default;
+    }
 </style>
 <script>
-    import { formatSize } from "../utils/formatSize";
-
-    let fileList = document.getElementById(
-        "file-list-body",
-    ) as HTMLTableSectionElement;
-    async function fetchFiles() {
-        const token = localStorage.getItem("token");
-        const fileTable = document.getElementById(
-            "file-list-body",
-        ) as HTMLTableSectionElement;
-        if (!token) {
-            console.error("No token found in localStorage");
-            return;
-        }
-        try {
-            const response = await fetch(
-                "http://localhost:8080/api/files/list",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
-            const data = await response.json();
-            for (const file of data.files) {
-                console.log(
-                    "Name:",
-                    file.filename,
-                    "Size:",
-                    formatSize(file.size),
-                );
-                const fileRow = document.createElement("tr");
-                const NameCell = document.createElement("td");
-                const SizeCell = document.createElement("td");
-                const ModTimeCell = document.createElement("td");
-
-                const DelCell = document.createElement("td");
-                const DelButton = document.createElement("button");
-                DelButton.className = "del-button";
-
-                NameCell.colSpan = 3;
-                NameCell.textContent = file.filename;
-
-                SizeCell.colSpan = 1;
-                SizeCell.textContent = formatSize(file.size);
-
-                ModTimeCell.colSpan = 1;
-                const date = new Date(file.modtime);
-                ModTimeCell.textContent = date.toLocaleDateString();
-
-                DelCell.colSpan = 1;
-                DelButton.textContent = "X";
-
-                DelButton.addEventListener("click", async () => {
-                    const token = localStorage.getItem("token");
-                    if (!token) return;
-
-                    try {
-                        const response = await fetch(
-                            `http://localhost:8080/api/files/delete/${encodeURIComponent(file.filename)}`,
-                            {
-                                method: "DELETE",
-                                headers: {
-                                    Authorization: `Bearer ${token}`,
-                                },
-                            },
-                        );
-                        if (response.ok) {
-                            fileRow.remove();
-                            checkList();
-                        } else {
-                            console.log(
-                                "Failed to delete file:",
-                                response.statusText,
-                            );
-                        }
-                    } catch (error) {
-                        console.log("Error deleting file:", error);
-                    }
-                });
-
-                fileRow.appendChild(NameCell);
-                fileRow.appendChild(SizeCell);
-                fileRow.appendChild(ModTimeCell);
-
-                DelCell.appendChild(DelButton);
-                fileRow.appendChild(DelCell);
-
-                fileTable?.appendChild(fileRow);
-            }
-        } catch (error) {
-            console.error("Error fetching file list:", error);
-            return;
-        }
-    }
-
-    fetchFiles().then(checkList);
-
-    async function checkList() {
-        if (fileList.children.length === 0) {
-            const noFilesRow = document.createElement("tr");
-            const noFilesCell = document.createElement("td");
-            noFilesCell.colSpan = 3;
-            noFilesCell.textContent = "No files found";
-            noFilesRow.appendChild(noFilesCell);
-            fileList.appendChild(noFilesRow);
-        }
-    }
+    import "../scripts/filelist.ts";
 </script>
