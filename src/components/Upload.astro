@@ -184,6 +184,7 @@ import { formatSize } from "../utils/formatSize";
                 `${stagedFiles.length} file(s) uploaded successfully`,
                 "success",
             );
+            document.dispatchEvent(new CustomEvent("files:refresh"));
             setTimeout(() => {
                 stagedFiles = [];
                 fileList.innerHTML = "";

@@ -193,3 +193,11 @@ function getCellValue(cell: HTMLTableCellElement, n: number): string | number {
 
     return text.toLowerCase();
 }
+document.addEventListener("files:refresh", () => { refreshFiles() });
+
+async function refreshFiles() {
+    const fileTable = document.getElementById("file-list-body") as HTMLTableSectionElement;
+    fileTable.innerHTML = "";
+    await fetchFiles();
+    checkList();
+}
