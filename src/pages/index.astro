@@ -5,9 +5,18 @@ import "../styles/global.css";
 
 <Layout>
     <div>
-        <h1>Welcome, [PLACEHOLDER]!</h1>
+        <h1 id="welcome">Welcome!</h1>
     </div>
 </Layout>
+
+<script>
+    const username = localStorage.getItem("username") || "null";
+    const welcomeEl = document.getElementById("welcome");
+
+    if (welcomeEl) {
+        welcomeEl.textContent = `Welcome, ${username}!`;
+    }
+</script>
 
 <style>
     div {
