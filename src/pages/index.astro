@@ -4,22 +4,93 @@ import "../styles/global.css";
 ---
 
 <Layout>
-    <div>
+    <div class="hero" id="hero">
         <h1 id="welcome">Welcome!</h1>
+        <p id="subtitle"></p>
+        <div class="cta" id="cta">
+            <a href="/register" class="btn btn-primary">Sign up free</a>
+            <a href="/login" class="btn btn-secondary">Log in</a>
+        </div>
+    </div>
+
+    <div class="features" id="features">
+        <div class="feature">
+            <h3>Upload anything</h3>
+            <p>Store documents, images, and files in one place.</p>
+        </div>
+        <div class="feature">
+            <h3>Stay organized</h3>
+            <p>Sorting makes it easy to find what you need.</p>
+        </div>
+        <div class="feature">
+            <h3>Access anywhere</h3>
+            <p>Your files, available on any device, anytime.</p>
+        </div>
     </div>
 </Layout>
-
 <script>
-    const username = localStorage.getItem("username") || "null";
-    const welcomeEl = document.getElementById("welcome");
+    const username = localStorage.getItem("username");
+    const welcomeEl = document.getElementById("welcome") as HTMLHeadingElement;
+    const subtitleEl = document.getElementById(
+        "subtitle",
+    ) as HTMLParagraphElement;
+    const ctaEl = document.getElementById("cta") as HTMLDivElement;
+    const featuresEl = document.getElementById("features") as HTMLDivElement;
 
-    if (welcomeEl) {
-        welcomeEl.textContent = `Welcome, ${username}!`;
+    if (username) {
+        welcomeEl.textContent = `Welcome back, ${username}!`;
+        subtitleEl.textContent = "Jump back into your files.";
+        ctaEl.innerHTML = `<a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>`;
+        featuresEl.style.display = "none";
+    } else {
+        subtitleEl.textContent =
+            "Your files, organized and accessible from anywhere.";
     }
 </script>
-
 <style>
-    div {
-        margin: 1rem;
+    .hero {
+        margin: 3rem 1rem;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero p {
+        color: var(--color-text);
+        margin-top: 0.5rem;
+    }
+    .cta {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+    .btn {
+        padding: 0.6rem 1.4rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .btn-primary {
+        background: var(--color-primary-dark);
+        color: white;
+    }
+    .btn-secondary {
+        background: #eee;
+        color: var(--color-text);
+    }
+    .features {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin: 2rem 1rem;
+        flex-wrap: wrap;
+    }
+    .feature {
+        max-width: 220px;
+        text-align: center;
+    }
+    .feature h3 {
+        margin-bottom: 0.5rem;
     }
 </style>
