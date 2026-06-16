@@ -38,6 +38,48 @@ async function fetchFiles() {
             const DelButton = document.createElement("button");
             DelButton.className = "del-button";
 
+            const DownloadCell = document.createElement("td");
+            const DownloadButton = document.createElement('button')
+            const DownloadIcon: HTMLImageElement = document.createElement("img")
+            DownloadIcon.src = "/static/download.svg"
+            DownloadButton.className = 'download-button';
+
+            DownloadButton.appendChild(DownloadIcon)
+            DownloadCell.appendChild(DownloadButton);
+            DownloadButton.addEventListener("click", async () => {
+                const token = localStorage.getItem("token")
+                if (!token) return;
+
+                try {
+                    const response = await fetch(
+                        `http://localhost:8080/api/files/download/${encodeURIComponent(file.filename)}`,
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        },
+                    );
+                    if (!response.ok) {
+                        console.log("failed to download file:", response.statusText);
+                        return
+                    }
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a")
+                    a.href = url;
+                    a.download = file.filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(url);
+
+                } catch (error) {
+                    console.log("Error downloading file:", error);
+                    return
+                }
+            })
+
             NameCell.colSpan = 3;
             NameCell.textContent = file.filename;
             NameCell.className = "col-name"
@@ -85,7 +127,7 @@ async function fetchFiles() {
             fileRow.appendChild(NameCell);
             fileRow.appendChild(SizeCell);
             fileRow.appendChild(ModTimeCell);
-
+            fileRow.appendChild(DownloadCell);
             DelCell.appendChild(DelButton);
             fileRow.appendChild(DelCell);
 

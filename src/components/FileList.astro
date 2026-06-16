@@ -20,7 +20,7 @@ import "../styles/filelist.css";
     :global(#file-list-table th, #file-list-table td) {
         text-align: left;
     }
-    :global(.del-button) {
+    :global(.del-button, .download-button) {
         /* background-color: red; */
         color: #5f6368;
         border: none;
@@ -35,7 +35,15 @@ import "../styles/filelist.css";
         visibility: hidden;
         font-size: 16px;
     }
-    :global(#file-list-table tbody tr:hover .del-button) {
+    :global(.download-button img) {
+        width: 16px;
+        height: 16px;
+    }
+
+    :global(
+        #file-list-table tbody tr:hover .del-button,
+        #file-list-table tbody tr:hover .download-button
+    ) {
         visibility: visible;
     }
     :global(#file-list-table tbody tr:hover) {
@@ -45,8 +53,14 @@ import "../styles/filelist.css";
         background-color: #e8eaed;
         color: #d93025;
     }
+    :global(.download-button:hover) {
+        background-color: #e8eaed;
+    }
+    :global(.download-button:hover img) {
+        filter: invert(40%) sepia(90%) saturate(1500%) hue-rotate(190deg);
+    }
     :global(#file-list-table tbody tr:hover td) {
-        background-color: #f0fdfa; /* light teal tint */
+        background-color: #f0fdfa;
         cursor: default;
     }
 </style>
