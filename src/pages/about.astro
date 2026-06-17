@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <div id="main-content">
+        <h1>About</h1>
+        <p>This is a website I made to build up my web development skills.</p>
+        <p>
+            The website's frontend is built with Astro. The backend is written
+            in Go, using:
+            <ul>
+                <li>
+                    <a href="https://github.com/jackc/pgx">pgx</a> - PostgreSQL driver
+                </li>
+                <li>
+                    <a href="https://github.com/golang-jwt/jwt">jwt</a> - authentication
+                </li>
+                <li>
+                    <a href="https://cs.opensource.google/go/x/crypto">bcrypt</a
+                    > - password hashing
+                </li>
+                <li>
+                    <a href="https://github.com/joho/godotenv">godotenv</a> - environment
+                    variables
+                </li>
+                <li>
+                    <a href="https://github.com/rs/cors">cors</a> - cross-origin request
+                    handling
+                </li>
+            </ul>
+
+            <h3>Credits</h3>
+            <a href="https://www.svgrepo.com/collection/dazzle-line-icons/"
+                >Cloud SVG icon - Dazzle Line Icons collection by Dazzle UI</a
+            >
+            <a href="https://www.svgrepo.com/author/Solar%20Icons/"
+                >Download SVG icon - Solar Icons</a
+            >
+        </p>
+    </div>
+
+    <style>
+        #main-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin: 0 25px;
+        }
+        p,
+        ul {
+            max-width: 600px;
+        }
+    </style>
+</Layout>
