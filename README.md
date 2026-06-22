@@ -1,43 +1,21 @@
-# Astro Starter Kit: Minimal
+# Cloud Drive (frontend)
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+A personal Google Drive-style cloud storage app built to explore how file storage and authentication can be implemented from scratch.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Tech Stack
 
-## 🚀 Project Structure
+**Frontend**
+- [Astro](https://astro.build/)
 
-Inside of your Astro project, you'll see the following folders and files:
+**Backend**
+- [Go](https://go.dev/)
+- [pgx](https://github.com/jackc/pgx) - PostgreSQL driver
+- [jwt](https://github.com/golang-jwt/jwt) - authentication
+- [bcrypt](https://cs.opensource.google/go/x/crypto) - password hashing
+- [godotenv](https://github.com/joho/godotenv) - environment variables injection
+- [cors](https://github.com/rs/cors) - cross-origin request handling
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Credits
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Cloud SVG icon](https://www.svgrepo.com/collection/dazzle-line-icons/) - Dazzle Line Icons collection by Dazzle UI
+- [Download SVG icon](https://www.svgrepo.com/author/Solar%20Icons/) - Solar Icons
