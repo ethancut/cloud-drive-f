@@ -7,7 +7,7 @@ A personal Google Drive-style cloud storage app built to explore how file storag
 **Frontend**
 - [Astro](https://astro.build/)
 
-**Backend**
+**[Backend](https://github.com/ethancut/cloud-drive-b)**
 - [Go](https://go.dev/)
 - [pgx](https://github.com/jackc/pgx) - PostgreSQL driver
 - [jwt](https://github.com/golang-jwt/jwt) - authentication
