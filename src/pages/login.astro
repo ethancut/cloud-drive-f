@@ -78,19 +78,19 @@ import "../styles/global.css";
 
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
-      const data = {
-        email,
-        password,
-      };
-      const response = await fetch("http://localhost:8080/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+
+      const response = await fetch(
+        `${import.meta.env.PUBLIC_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         },
-        body: JSON.stringify(data),
-      });
+      );
       if (response.ok) {
-        const responseData = await response.json();
+        const data = await response.json();
 
         saveTokens({
           access_token: data.access_token,

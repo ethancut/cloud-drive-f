@@ -4,6 +4,8 @@ import { authFetch, getAccessToken } from "../utils/auth";
 let fileList = document.getElementById(
     "file-list-body",
 ) as HTMLTableSectionElement;
+
+
 async function fetchFiles() {
     const token = localStorage.getItem("token");
     const fileTable = document.getElementById(
@@ -14,15 +16,13 @@ async function fetchFiles() {
     return;
   }
     try {
-        const response = await fetch(
-            "http://localhost:8080/api/files/list",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        );
+        const response = await authFetch(`${import.meta.env.PUBLIC_API_URL}/api/files/list`);
+        if (!response.ok) {
+            console.error("Failed to fetch file list:", response.statusText);
+            return;
+        }
         const data = await response.json();
+
         for (const file of data.files) {
             console.log(
                 "Name:",
@@ -52,15 +52,8 @@ async function fetchFiles() {
                 if (!token) return;
 
                 try {
-                    const response = await fetch(
-                        `http://localhost:8080/api/files/download/${encodeURIComponent(file.filename)}`,
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        },
-                    );
+                    const response = await authFetch(
+                        `${import.meta.env.PUBLIC_API_URL}/api/files/download/${encodeURIComponent(file.filename)}`);
                     if (!response.ok) {
                         console.log("failed to download file:", response.statusText);
                         return
@@ -102,24 +95,16 @@ async function fetchFiles() {
                 if (!token) return;
 
                 try {
-                    const response = await fetch(
-                        `http://localhost:8080/api/files/delete/${encodeURIComponent(file.filename)}`,
+                    const response = await authFetch(
+                        `${import.meta.env.PUBLIC_API_URL}/api/files/delete/${encodeURIComponent(file.filename)}`,
                         {
                             method: "DELETE",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
                         },
                     );
                     if (response.ok) {
                         fileRow.remove();
                         checkList();
-                    } else {
-                        console.log(
-                            "Failed to delete file:",
-                            response.statusText,
-                        );
-                    }
+                    } 
                 } catch (error) {
                     console.log("Error deleting file:", error);
                 }
