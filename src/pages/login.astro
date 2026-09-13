@@ -68,6 +68,7 @@ import "../styles/global.css";
 </Layout>
 
 <script>
+  import { saveTokens } from "../utils/auth";
   document
     .getElementById("login-form")
     ?.addEventListener("submit", async (e) => {
@@ -91,7 +92,13 @@ import "../styles/global.css";
       if (response.ok) {
         const responseData = await response.json();
 
-        localStorage.setItem("token", responseData.token);
+        saveTokens({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        });
+        if (data.username) {
+          localStorage.setItem("username", data.username);
+        }
         // Login successful, redirect to dashboard
         alert("Login successful!");
         window.location.href = "/";

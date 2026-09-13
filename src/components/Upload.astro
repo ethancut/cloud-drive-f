@@ -21,7 +21,7 @@ import { formatSize } from "../utils/formatSize";
 </div>
 <script>
     import { formatSize } from "../utils/formatSize";
-
+  import { getAccessToken, refreshAccessToken } from "../utils/auth";
     interface StagedFile {
         file: File;
         id: string;
@@ -123,6 +123,9 @@ import { formatSize } from "../utils/formatSize";
         statusEl.textContent = "UPLOADING";
         statusEl.className = "file-status status-uploading";
 
+    let token = getAccessToken();
+
+    const sendXHR = (authToken: string) => {
         return new Promise<void>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
@@ -135,36 +138,47 @@ import { formatSize } from "../utils/formatSize";
                 }
             });
 
-            xhr.addEventListener("load", () => {
-                if (xhr.status === 200) {
-                    progressBar.style.width = "100%";
-                    statusEl.textContent = "DONE";
-                    statusEl.className = "file-status status-done";
-                    // hide remove button
-                    const removeBtn = statusEl
-                        .closest("tr")
-                        ?.querySelector<HTMLButtonElement>(".remove-btn");
-                    if (removeBtn) removeBtn.style.display = "none";
-                    resolve();
-                } else {
-                    statusEl.textContent = "ERROR";
-                    statusEl.className = "file-status status-error";
-                    reject(new Error(xhr.responseText || "Upload failed"));
-                }
-            });
-
-            xhr.addEventListener("error", () => {
-                statusEl.textContent = "ERROR";
-                statusEl.className = "file-status status-error";
-
-                reject(new Error("Network error"));
-            });
-            console.log("Posting to /api/files/upload with token:", token);
-            xhr.open("POST", "http://localhost:8080/api/files/upload");
-            xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-            xhr.send(formData);
+        xhr.addEventListener("load", async () => {
+          if (xhr.status === 200) {
+            progressBar.style.width = "100%";
+            statusEl.textContent = "DONE";
+            statusEl.className = "file-status status-done";
+            const removeBtn = statusEl
+              .closest("tr")
+              ?.querySelector<HTMLButtonElement>(".remove-btn");
+            if (removeBtn) removeBtn.style.display = "none";
+            resolve();
+          } else if (xhr.status === 401) {
+            // Token expired mid-upload, attempt one refresh & retry
+            const refreshedToken = await refreshAccessToken();
+            if (refreshedToken) {
+              sendXHR(refreshedToken).then(resolve).catch(reject);
+            } else {
+              statusEl.textContent = "ERROR";
+              statusEl.className = "file-status status-error";
+              reject(new Error("Session expired"));
+            }
+          } else {
+            statusEl.textContent = "ERROR";
+            statusEl.className = "file-status status-error";
+            reject(new Error(xhr.responseText || "Upload failed"));
+          }
         });
-    }
+
+        xhr.addEventListener("error", () => {
+          statusEl.textContent = "ERROR";
+          statusEl.className = "file-status status-error";
+          reject(new Error("Network error"));
+        });
+
+        xhr.open("POST", `${import.meta.env.PUBLIC_API_URL}/api/files/upload`);
+        xhr.setRequestHeader("Authorization", `Bearer ${authToken}`);
+        xhr.send(formData);
+      });
+    };
+
+    return sendXHR(token || "");
+  }
 
     uploadBtn.addEventListener("click", async () => {
         uploadBtn.disabled = true;

@@ -32,7 +32,11 @@ import CloudIcon from "../static/cloud.svg";
 </header>
 
 <script>
-  if (localStorage.getItem("token")) {
+  import { clearTokens } from "../utils/auth";
+  if (
+    localStorage.getItem("refresh_token") ||
+    localStorage.getItem("access_token")
+  ) {
     document.querySelectorAll(".header__nav-item").forEach((item) => {
       const text = item.textContent?.trim();
 
@@ -50,8 +54,7 @@ import CloudIcon from "../static/cloud.svg";
     logoutBtn.style.display = "block";
 
     logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
+      clearTokens();
       window.location.reload();
     });
   }

@@ -1,4 +1,5 @@
 import { formatSize } from "../utils/formatSize";
+import { authFetch, getAccessToken } from "../utils/auth";
 
 let fileList = document.getElementById(
     "file-list-body",
@@ -8,10 +9,10 @@ async function fetchFiles() {
     const fileTable = document.getElementById(
         "file-list-body",
     ) as HTMLTableSectionElement;
-    if (!token) {
-        console.error("No token found in localStorage");
-        return;
-    }
+    if (!getAccessToken()) {
+    console.error("No token found");
+    return;
+  }
     try {
         const response = await fetch(
             "http://localhost:8080/api/files/list",
