@@ -32,11 +32,8 @@ import CloudIcon from "../static/cloud.svg";
 </header>
 
 <script>
-  import { clearTokens } from "../utils/auth";
-  if (
-    localStorage.getItem("refresh_token") ||
-    localStorage.getItem("access_token")
-  ) {
+  import { clearTokens, getAccessToken, getRefreshToken } from "../utils/auth";
+  if (getRefreshToken() && getAccessToken()) {
     document.querySelectorAll(".header__nav-item").forEach((item) => {
       const text = item.textContent?.trim();
 

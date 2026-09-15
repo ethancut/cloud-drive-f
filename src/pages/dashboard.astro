@@ -5,58 +5,50 @@ import FileList from "../components/FileList.astro";
 ---
 
 <Layout>
-    <div class="main-content" id="dashboard" style="display:none">
-        <h1 class="h">Dashboard</h1>
+  <div class="main-content" id="dashboard">
+    <h1 class="h">Dashboard</h1>
 
-        <FileList />
-    </div>
-    <div id="upload-div">
-        <h3>Upload Files</h3>
-        <Upload />
-    </div>
+    <FileList />
+  </div>
+  <div id="upload-div">
+    <h3>Upload Files</h3>
+    <Upload />
+  </div>
 </Layout>
 
 <style>
-    #upload-div {
-        /*center the div */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-top: 3px dotted var(--color-text);
-        margin-top: 20px;
-    }
-    .main-content {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
-        padding: 28px;
-        margin: 24px auto;
-        max-width: 95vw;
-        /* padding-bottom: ; */
-    }
-    .h {
-        margin-top: 0;
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        text-align: center;
-        color: #0e1b1d;
-    }
-    #dashboard {
-        width: 100%;
-        background-color: white;
-        /* border: 4px solid var(--color-primary-dark); */
-        margin-bottom: 0;
-    }
-    body {
-        background-color: #f1f5f4;
-    }
+  #upload-div {
+    /*center the div */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px dotted var(--color-text);
+    margin-top: 20px;
+  }
+  .main-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
+    padding: 28px;
+    margin: 24px auto;
+    max-width: 95vw;
+    /* padding-bottom: ; */
+  }
+  .h {
+    margin-top: 0;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #0e1b1d;
+  }
+  #dashboard {
+    width: 100%;
+    background-color: white;
+    /* border: 4px solid var(--color-primary-dark); */
+    margin-bottom: 0;
+  }
+  body {
+    background-color: #f1f5f4;
+  }
 </style>
-<script>
-    const token = localStorage.getItem("token");
-    if (!token) {
-        window.location.href = "/login";
-    } else {
-        (document.getElementById("dashboard") as HTMLElement).style.display =
-            "block";
-    }
-</script>
+<script></script>

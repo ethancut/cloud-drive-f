@@ -1,5 +1,5 @@
 import { formatSize } from "../utils/formatSize";
-import { authFetch, getAccessToken } from "../utils/auth";
+import { authFetch, getAccessToken, redirectToLogin } from "../utils/auth";
 
 let fileList = document.getElementById(
     "file-list-body",
@@ -7,12 +7,12 @@ let fileList = document.getElementById(
 
 
 async function fetchFiles() {
-    const token = localStorage.getItem("token");
     const fileTable = document.getElementById(
         "file-list-body",
     ) as HTMLTableSectionElement;
     if (!getAccessToken()) {
     console.error("No token found");
+    redirectToLogin();
     return;
   }
     try {
@@ -48,7 +48,7 @@ async function fetchFiles() {
             DownloadButton.appendChild(DownloadIcon)
             DownloadCell.appendChild(DownloadButton);
             DownloadButton.addEventListener("click", async () => {
-                const token = localStorage.getItem("token")
+                const token = getAccessToken();
                 if (!token) return;
 
                 try {
@@ -91,7 +91,7 @@ async function fetchFiles() {
             DelButton.textContent = "X";
 
             DelButton.addEventListener("click", async () => {
-                const token = localStorage.getItem("token");
+                const token = getAccessToken();
                 if (!token) return;
 
                 try {

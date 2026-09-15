@@ -43,15 +43,15 @@ const refreshToken = getRefreshToken();
                 body: JSON.stringify({ refresh_token: refreshToken })
             });
             if (!res.ok) {
-                clearTokens();
+                redirectToLogin();
                 return null;
             }
             const data: AuthTokens = await res.json();
             saveTokens(data);
             return data.access_token;
         } catch (err) {
-            clearTokens();
-            window.location.href = "/login";
+            console.error("Network error during token refresh:", err);
+            redirectToLogin();
             return null;
         } finally {
             refreshPromise = null;
@@ -77,8 +77,14 @@ export async function authFetch(url: string, init: RequestInit = {}): Promise<Re
       headers.set("Authorization", `Bearer ${newToken}`);
       init.headers = headers;
       response = await fetch(url, init); // Retry original request
+    } else {
+        redirectToLogin();
     }
   }
 
   return response;
+}
+export function redirectToLogin() {
+    clearTokens();
+    window.location.href = "/login";
 }
