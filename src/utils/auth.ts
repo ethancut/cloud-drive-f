@@ -37,10 +37,9 @@ const refreshToken = getRefreshToken();
     }
     refreshPromise = (async () => {
         try {
-            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/auth/refresh`,{
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/api/auth/refresh`,{
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ refresh_token: refreshToken })
+                headers: {"Content-Type": "application/json", "Authorization": `Bearer ${refreshToken}`},
             });
             if (!res.ok) {
                 redirectToLogin();
@@ -70,7 +69,6 @@ export async function authFetch(url: string, init: RequestInit = {}): Promise<Re
   init.headers = headers;
 
   let response = await fetch(url, init);
-
   if (response.status === 401) {
     const newToken = await refreshAccessToken();
     if (newToken) {

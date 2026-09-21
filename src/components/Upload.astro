@@ -50,10 +50,19 @@ import { formatSize } from "../utils/formatSize";
       toast.className = "toast";
     }, 3000);
   }
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
   function addFiles(files: FileList | null): void {
     if (!files) return;
     for (const file of Array.from(files)) {
+      if (file.size > MAX_FILE_SIZE) {
+        showToast(
+          `File "${file.name}" exceeds the 10MB limit and was not added.`,
+          "error",
+        );
+        continue;
+      }
+
       const id = crypto.randomUUID();
 
       const item = document.createElement("tr");
@@ -80,6 +89,7 @@ import { formatSize } from "../utils/formatSize";
         statusEl: document.getElementById(`status-${id}`) as HTMLSpanElement,
       });
     }
+    fileInput.value = "";
     uploadBtn.disabled = stagedFiles.length === 0;
   }
 
