@@ -53,7 +53,7 @@ async function fetchFiles() {
 
                 try {
                     const response = await authFetch(
-                        `${import.meta.env.PUBLIC_API_URL}/api/files/download/${encodeURIComponent(file.filename)}`);
+                        `${import.meta.env.PUBLIC_API_URL}/api/files/download/${encodeURIComponent(file.id)}`);
                     if (!response.ok) {
                         console.log("failed to download file:", response.statusText);
                         return
@@ -96,7 +96,7 @@ async function fetchFiles() {
 
                 try {
                     const response = await authFetch(
-                        `${import.meta.env.PUBLIC_API_URL}/api/files/delete/${encodeURIComponent(file.filename)}`,
+                        `${import.meta.env.PUBLIC_API_URL}/api/files/delete/${encodeURIComponent(file.id)}`,
                         {
                             method: "DELETE",
                         },
