@@ -4,12 +4,30 @@ import { authFetch, getAccessToken, redirectToLogin } from "../utils/auth";
 let fileList = document.getElementById(
     "file-list-body",
 ) as HTMLTableSectionElement;
-
-
+const cache = new Map<string, string>(); // fileId -> object URL
+const inFlight = new Map<string, Promise<string>>(); // dedupe concurrent clicks
 async function fetchFiles() {
     const fileTable = document.getElementById(
         "file-list-body",
     ) as HTMLTableSectionElement;
+    let imagePreviewDiv = document.getElementById(
+        "file-preview",
+    ) as HTMLDivElement;
+    let filePreview = document.querySelector(
+        "#file-preview img",
+    ) as HTMLImageElement;
+    let imagePreviewCloseButton = document.querySelector(
+        "#file-preview button",
+    ) as HTMLButtonElement;
+
+
+
+    imagePreviewCloseButton.addEventListener("click", () => {
+        imagePreviewDiv.style.display = "none";
+        filePreview.src = "";
+    });
+
+
     if (!getAccessToken()) {
     console.error("No token found");
     redirectToLogin();
@@ -24,12 +42,6 @@ async function fetchFiles() {
         const data = await response.json();
 
         for (const file of data.files) {
-            console.log(
-                "Name:",
-                file.filename,
-                "Size:",
-                formatSize(file.size),
-            );
             const fileRow = document.createElement("tr");
             const NameCell = document.createElement("td");
             const SizeCell = document.createElement("td");
@@ -109,6 +121,28 @@ async function fetchFiles() {
                     console.log("Error deleting file:", error);
                 }
             });
+               
+
+
+            fileRow.addEventListener("click", async () => {
+                fileRow.classList.toggle("selected");
+                // deselect other rows
+                Array.from(fileTable?.rows || []).forEach(row => {
+                    if (row !== fileRow) {
+                        row.classList.remove("selected");
+                    }
+                });
+               try {
+                const url = await getPreviewUrl(file.id);
+                filePreview.src = url;
+                imagePreviewDiv.style.display = "inline-block";
+                
+               } catch (error) {
+                   console.log("Error fetching preview:", error);
+               }
+                console.log("click")
+            });
+
 
             fileRow.appendChild(NameCell);
             fileRow.appendChild(SizeCell);
@@ -137,7 +171,26 @@ async function checkList() {
         fileList.appendChild(noFilesRow);
     }
 }
-
+async function getPreviewUrl(fileID: string) {
+    if (cache.has(fileID)) {
+        return cache.get(fileID)!;
+    }
+    if (inFlight.has(fileID)) {
+        return inFlight.get(fileID)!;
+    }
+    const promise = (async () => {
+        const res = await authFetch(`${import.meta.env.PUBLIC_API_URL}/api/files/preview/${encodeURIComponent(fileID)}`, {
+            cache: "default",
+        });
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        cache.set(fileID, url);
+        inFlight.delete(fileID);
+        return url;
+    })();
+    inFlight.set(fileID, promise);
+    return promise;
+}
 
 function sortTable(n: number) {
     var table, rows, switching, i, x, y, xVal, yVal, shouldSwitch, dir, switchCount = 0;
@@ -187,6 +240,9 @@ function sortTable(n: number) {
 document.querySelectorAll<HTMLElement>("#file-list-table th").forEach((th, i) => {
     th.addEventListener("click", () => sortTable(i));
 });
+
+
+
 // Parse into bytes for comparison
 function parseSize(text: string): number {
     const match = text.trim().match(/^([\d.]+)\s*(B|KB|MB|GB)?$/i);
