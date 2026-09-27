@@ -25,6 +25,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build site
+        env:
+          PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
         run: pnpm build
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
