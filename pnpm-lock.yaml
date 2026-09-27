@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@astrojs/cloudflare':
-        specifier: ^14.3.1
-        version: 14.3.1(astro@7.3.5)(esbuild@0.28.2)(wrangler@4.131.1)
+        specifier: ^14.3.3
+        version: 14.3.3(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3))(esbuild@0.28.2)(wrangler@4.131.1)
       astro:
         specifier: ^7.3.5
         version: 7.3.5
@@ -21,8 +21,8 @@ importers:
 
 packages:
 
-  '@astrojs/cloudflare@14.3.1':
-    resolution: {integrity: sha512-sIweOA4GWpTr/M71akzEVypVO5b0FyLKll+4V9gtPOKAO4NejpaanRoQ/97wT9v1dSsFyACWDzL+u9xyT9BqUQ==}
+  '@astrojs/cloudflare@14.3.3':
+    resolution: {integrity: sha512-kYb1xf+BBa8oAIMSZPfXxZWVWSEDhA+AgBN6ClDDDZspIN1M2XsIC6/fozyuCApNuiyqa3eUQbai62WohqJUgQ==}
     peerDependencies:
       astro: ^7.2.0
       wrangler: ^4.125.0
