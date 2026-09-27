@@ -25,6 +25,10 @@ async function fetchFiles() {
     imagePreviewCloseButton.addEventListener("click", () => {
         imagePreviewDiv.style.display = "none";
         filePreview.src = "";
+        Array.from(fileTable?.rows || []).forEach(row => {
+                        row.classList.remove("selected");
+                    
+                });
     });
 
 
@@ -124,7 +128,7 @@ async function fetchFiles() {
                
 
 
-            fileRow.addEventListener("click", async () => {
+            fileRow.addEventListener("dblclick", async () => {
                 fileRow.classList.toggle("selected");
                 // deselect other rows
                 Array.from(fileTable?.rows || []).forEach(row => {
@@ -191,7 +195,9 @@ async function getPreviewUrl(fileID: string) {
     inFlight.set(fileID, promise);
     return promise;
 }
+function showPreview(blobURL: string) {
 
+}
 function sortTable(n: number) {
     var table, rows, switching, i, x, y, xVal, yVal, shouldSwitch, dir, switchCount = 0;
     table = document.getElementById("file-list-table") as HTMLTableElement;
