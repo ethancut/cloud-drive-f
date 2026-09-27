@@ -4,66 +4,86 @@ import "../styles/filelist.css";
 ---
 
 <table id="file-list-table">
-    <thead>
-        <tr>
-            <th colspan="3">Filename</th>
-            <th colspan="1">Size</th>
-            <th colspan="2">Last Modified</th>
-        </tr>
-    </thead>
-    <tbody id="file-list-body">
-        <!-- rows dynamically inserted here -->
-    </tbody>
+  <thead>
+    <tr>
+      <th colspan="3">Filename</th>
+      <th colspan="1">Size</th>
+      <th colspan="2">Last Modified</th>
+    </tr>
+  </thead>
+  <tbody id="file-list-body">
+    <!-- rows dynamically inserted here -->
+  </tbody>
 </table>
+<div style="position:relative; display:none;" , id="file-preview">
+  <img style="display:block; max-width:400px; border:1px solid #000;" />
+  <button
+    style="position:absolute; top: 0px; right: 0px; width: 24px; height: 24px; line-height: 1;
+    display: flex; align-items: center; justify-content: center; box-sizing: border-box"
+    >x</button
+  >
+</div>
 <style>
-    /* dynamic styles */
-    :global(#file-list-table th, #file-list-table td) {
-        text-align: left;
-    }
-    :global(.del-button, .download-button) {
-        /* background-color: red; */
-        color: #5f6368;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        padding: 0;
-        line-height: 1;
-        border-radius: 50%;
-        visibility: hidden;
-        font-size: 16px;
-    }
-    :global(.download-button img) {
-        width: 16px;
-        height: 16px;
-    }
+  /* dynamic styles */
+  :global(#file-list-table th, #file-list-table td) {
+    text-align: left;
+  }
+  :global(.del-button, .download-button) {
+    color: #5f6368;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    line-height: 1;
+    border-radius: 50%;
+    visibility: hidden;
+    font-size: 16px;
+  }
+  :global(.download-button img) {
+    width: 16px;
+    height: 16px;
+  }
 
-    :global(
-        #file-list-table tbody tr:hover .del-button,
-        #file-list-table tbody tr:hover .download-button
-    ) {
-        visibility: visible;
-    }
-    :global(#file-list-table tbody tr:hover) {
-        background-color: #5f6368;
-    }
-    :global(.del-button:hover) {
-        background-color: #e8eaed;
-        color: #d93025;
-    }
-    :global(.download-button:hover) {
-        background-color: #e8eaed;
-    }
-    :global(.download-button:hover img) {
-        filter: invert(40%) sepia(90%) saturate(1500%) hue-rotate(190deg);
-    }
-    :global(#file-list-table tbody tr:hover td) {
-        background-color: #f0fdfa;
-        cursor: default;
-    }
+  :global(
+    #file-list-table tbody tr:hover .del-button,
+    #file-list-table tbody tr:hover .download-button
+  ) {
+    visibility: visible;
+  }
+  :global(#file-list-table tbody tr:hover:not(.selected)) {
+    background-color: #5f6368;
+  }
+
+  :global(#file-list-table tbody tr:hover:not(.selected) td) {
+    background-color: #f0fdfa;
+    cursor: default;
+  }
+
+  :global(#file-list-table tbody tr:hover.selected td) {
+    background-color: #c6f1e6;
+    cursor: default;
+  }
+  :global(.del-button:hover) {
+    background-color: #e8eaed;
+    color: #d93025;
+  }
+  :global(.download-button:hover) {
+    background-color: #e8eaed;
+  }
+  :global(.download-button:hover img) {
+    filter: invert(40%) sepia(90%) saturate(1500%) hue-rotate(190deg);
+  }
+  :global(#file-list-table tbody tr:hover td) {
+    background-color: #f0fdfa;
+    cursor: default;
+  }
+  :global(#file-list-table tbody tr.selected) {
+    background-color: #c6f1e6;
+  }
 </style>
 <script>
-    import "../scripts/filelist.ts";
+  import "../scripts/filelist.ts";
 </script>
