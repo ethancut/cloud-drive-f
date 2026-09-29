@@ -59,27 +59,38 @@
 }
 
 .modal {
-  display: block; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: block;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
 }
 
 .modal-content {
   position: relative;
   background-color: #fefefedb;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
+  /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  width: fit-content; /* Could be more or less, depending on screen size */
+  width: fit-content;
+  /* Could be more or less, depending on screen size */
 }
+
 .modal-content button {
   aspect-ratio: 1/1;
   text-align: center;
@@ -92,40 +103,55 @@
   border: 0;
   color: white;
 }
+
 .modal-content button:hover {
   background-color: rgb(238, 0, 0);
 }
+
 .modal-content button:active {
   background-color: rgb(200, 0, 0);
 }
+
 #file-list-table {
   user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
 }
+
 .del-button:hover {
   color: #d93025;
   background-color: #e8eaed;
 }
-.download-button:hover {
+
+.download-button:hover,
+.rename-button:hover {
   background-color: #e8eaed;
 }
-.download-button:hover img {
+
+.download-button:hover img,
+.rename-button:hover img {
   filter: invert(40%) sepia(90%) saturate(1500%) hue-rotate(190deg);
 }
+
 #file-list-table tbody tr:hover td {
   background-color: #f0fdfa;
   cursor: default;
 }
+
 #file-list-table tbody tr.selected {
   background-color: #c6f1e6;
 }
+
 #file-list-table th,
 #file-list-table td {
   text-align: left;
 }
+
 .del-button,
-.download-button {
+.download-button,
+.rename-button {
   color: #5f6368;
   border: none;
   display: flex;
@@ -139,15 +165,20 @@
   visibility: hidden;
   font-size: 16px;
 }
-.download-button img {
+
+.download-button img,
+.rename-button img {
   width: 16px;
   height: 16px;
 }
 
+
 #file-list-table tbody tr:hover .del-button,
-#file-list-table tbody tr:hover .download-button {
+#file-list-table tbody tr:hover .download-button,
+#file-list-table tbody tr:hover .rename-button {
   visibility: visible;
 }
+
 #file-list-table tbody tr:hover:not(.selected) {
   background-color: #5f6368;
 }

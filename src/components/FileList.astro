@@ -1,5 +1,4 @@
 ---
-import { formatSize } from "../utils/formatSize";
 import "../styles/filelist.css";
 ---
 
@@ -9,6 +8,20 @@ import "../styles/filelist.css";
     <button>X</button>
   </div>
 </div>
+
+<dialog id="rename-modal">
+  <form id="rename-form" method="dialog">
+    <h2>Rename file</h2>
+    <label>
+      New name
+      <input type="text" name="name" required maxlength="255" />
+    </label>
+    <div class="actions">
+      <button type="button" id="rename-cancel">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</dialog>
 <table id="file-list-table">
   <thead>
     <tr>

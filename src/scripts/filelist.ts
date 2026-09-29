@@ -1,11 +1,56 @@
 import { formatSize } from "../utils/formatSize";
 import { authFetch, getAccessToken, redirectToLogin } from "../utils/auth";
-
 let fileList = document.getElementById(
     "file-list-body",
 ) as HTMLTableSectionElement;
 const cache = new Map<string, string>(); // fileId -> object URL
 const inFlight = new Map<string, Promise<string>>(); // dedupe concurrent clicks
+const renameModal = document.getElementById("rename-modal") as HTMLDialogElement;
+const renameForm = document.getElementById("rename-form") as HTMLFormElement;
+const renameInput = renameForm.elements.namedItem("name") as HTMLInputElement;
+let renameTarget: { file: any; nameCell: HTMLTableCellElement } | null = null;
+
+document.getElementById("rename-cancel")!.addEventListener("click", () => {
+    renameModal.close();
+});
+
+renameModal.addEventListener("click", (e) => {
+    if (e.target === renameModal) {
+        renameModal.close();
+    }
+});
+
+renameForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!renameTarget) return;
+
+    const newName = renameInput.value.trim();
+    const { file, nameCell } = renameTarget;
+    if (!newName || newName === file.filename) {
+        renameModal.close();
+        return;
+    }
+
+    try {
+        const response = await authFetch(
+            `${import.meta.env.PUBLIC_API_URL}/api/files/rename/${encodeURIComponent(file.id)}`,
+            {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ filename: newName }),
+            },
+        );
+        if (!response.ok) {
+            console.error("Failed to rename:", response.statusText);
+            return;
+        }
+        file.filename = newName;          // download button reads this
+        nameCell.textContent = newName;   // update the table
+        renameModal.close();
+    } catch (error) {
+        console.error("Error renaming file:", error);
+    }
+});
 async function fetchFiles() {
     const fileTable = document.getElementById(
         "file-list-body",
@@ -50,7 +95,6 @@ async function fetchFiles() {
             const NameCell = document.createElement("td");
             const SizeCell = document.createElement("td");
             const ModTimeCell = document.createElement("td");
-
             const DelCell = document.createElement("td");
             const DelButton = document.createElement("button");
             DelButton.className = "del-button";
@@ -63,6 +107,25 @@ async function fetchFiles() {
 
             DownloadButton.appendChild(DownloadIcon)
             DownloadCell.appendChild(DownloadButton);
+
+            const RenameCell = document.createElement("td");
+            const RenameButton = document.createElement("button");
+            const RenameIcon: HTMLImageElement = document.createElement("img")
+            RenameIcon.src = "/static/pen-square.svg"
+            RenameButton.className = "rename-button";
+            RenameButton.id = `rename-button-${file.id}`;
+
+            RenameButton.appendChild(RenameIcon);
+            RenameCell.appendChild(RenameButton);
+
+            RenameButton.addEventListener("click", () => {
+                renameTarget = { file, nameCell: NameCell };
+                renameInput.value = file.filename;
+                renameModal.showModal();
+                renameInput.select();
+            });
+            RenameCell.colSpan = 1;
+
             DownloadButton.addEventListener("click", async () => {
                 const token = getAccessToken();
                 if (!token) return;
@@ -157,6 +220,7 @@ async function fetchFiles() {
             fileRow.appendChild(DownloadCell);
             DelCell.appendChild(DelButton);
             fileRow.appendChild(DelCell);
+            fileRow.appendChild(RenameCell);
 
             fileTable?.appendChild(fileRow);
         }
@@ -190,7 +254,7 @@ async function getPreviewUrl(fileID: string) {
             cache: "default",
         });
 
-        if (res.status !== 200) {
+        if (!res.ok) {
             return "";
         }
         const blob = await res.blob();
