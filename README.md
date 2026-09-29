@@ -22,7 +22,8 @@ A personal Google Drive-style cloud storage app built to explore how file storag
 ## DEPENDENCIES
 
 - [libvips](https://www.libvips.org/) 8.14+
-- [pnpm](https://pnpm.io/) latest
+- [pnpm](https://pnpm.io/) 12.6.0+
+- [ffmpeg](https://ffmpeg.org/) 8.0.1+
 
 ## Credits
 
