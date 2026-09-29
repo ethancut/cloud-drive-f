@@ -26,17 +26,17 @@ async function fetchFiles() {
         imagePreviewDiv.style.display = "none";
         filePreview.src = "";
         Array.from(fileTable?.rows || []).forEach(row => {
-                        row.classList.remove("selected");
-                    
-                });
+            row.classList.remove("selected");
+
+        });
     });
 
 
     if (!getAccessToken()) {
-    console.error("No token found");
-    redirectToLogin();
-    return;
-  }
+        console.error("No token found");
+        redirectToLogin();
+        return;
+    }
     try {
         const response = await authFetch(`${import.meta.env.PUBLIC_API_URL}/api/files/list`);
         if (!response.ok) {
@@ -120,12 +120,12 @@ async function fetchFiles() {
                     if (response.ok) {
                         fileRow.remove();
                         checkList();
-                    } 
+                    }
                 } catch (error) {
                     console.log("Error deleting file:", error);
                 }
             });
-               
+
 
 
             fileRow.addEventListener("dblclick", async () => {
@@ -136,14 +136,17 @@ async function fetchFiles() {
                         row.classList.remove("selected");
                     }
                 });
-               try {
-                const url = await getPreviewUrl(file.id);
-                filePreview.src = url;
-                imagePreviewDiv.style.display = "inline-block";
-                
-               } catch (error) {
-                   console.log("Error fetching preview:", error);
-               }
+                try {
+                    const url = await getPreviewUrl(file.id);
+                    if (url == "") {
+                        return
+                    }
+                    filePreview.src = url;
+                    imagePreviewDiv.style.display = "inline-block";
+
+                } catch (error) {
+                    console.log("Error fetching preview:", error);
+                }
                 console.log("click")
             });
 
@@ -186,6 +189,10 @@ async function getPreviewUrl(fileID: string) {
         const res = await authFetch(`${import.meta.env.PUBLIC_API_URL}/api/files/preview/${encodeURIComponent(fileID)}`, {
             cache: "default",
         });
+
+        if (res.status !== 200) {
+            return "";
+        }
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         cache.set(fileID, url);
