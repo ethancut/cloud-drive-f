@@ -4,47 +4,53 @@ import "../styles/global.css";
 ---
 
 <Layout>
-    <div class="hero" id="hero">
-        <h1 id="welcome">Welcome!</h1>
-        <p id="subtitle"></p>
+    <div class="hero" id="hero" hidden>
+        <h1>Welcome!</h1>
+        <p>Your files, organized and accessible from anywhere.</p>
         <div class="cta" id="cta">
             <a href="/register" class="btn btn-primary">Sign up free</a>
             <a href="/login" class="btn btn-secondary">Log in</a>
         </div>
+
+        <div class="features" id="features">
+            <div class="feature">
+                <h3>Upload anything</h3>
+                <p>Store documents, images, and files in one place.</p>
+            </div>
+            <div class="feature">
+                <h3>Stay organized</h3>
+                <p>Sorting makes it easy to find what you need.</p>
+            </div>
+            <div class="feature">
+                <h3>Access anywhere</h3>
+                <p>Your files, available on any device, anytime.</p>
+            </div>
+        </div>
     </div>
 
-    <div class="features" id="features">
-        <div class="feature">
-            <h3>Upload anything</h3>
-            <p>Store documents, images, and files in one place.</p>
-        </div>
-        <div class="feature">
-            <h3>Stay organized</h3>
-            <p>Sorting makes it easy to find what you need.</p>
-        </div>
-        <div class="feature">
-            <h3>Access anywhere</h3>
-            <p>Your files, available on any device, anytime.</p>
+    <div class="hero" id="auth-hero" hidden>
+        <h1 id="welcome"></h1>
+        <p>Jump back into your files.</p>
+        <div class="cta">
+            <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
         </div>
     </div>
 </Layout>
 <script>
-    const username = localStorage.getItem("username");
-    const welcomeEl = document.getElementById("welcome") as HTMLHeadingElement;
-    const subtitleEl = document.getElementById(
-        "subtitle",
-    ) as HTMLParagraphElement;
-    const ctaEl = document.getElementById("cta") as HTMLDivElement;
-    const featuresEl = document.getElementById("features") as HTMLDivElement;
+    import { getAccessToken, getRefreshToken } from "../utils/auth";
 
-    if (username) {
-        welcomeEl.textContent = `Welcome back, ${username}!`;
-        subtitleEl.textContent = "Jump back into your files.";
-        ctaEl.innerHTML = `<a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>`;
-        featuresEl.style.display = "none";
+    const hero = document.getElementById("hero") as HTMLElement;
+
+    const username = localStorage.getItem("username");
+    const authHero = document.getElementById("auth-hero") as HTMLElement;
+    const welcomeEl = document.getElementById("welcome") as HTMLElement;
+
+    const isAuthorized = Boolean(getAccessToken() && getRefreshToken());
+    if (username && isAuthorized) {
+        welcomeEl.textContent = `Welcome, ${username}!`;
+        authHero.hidden = false;
     } else {
-        subtitleEl.textContent =
-            "Your files, organized and accessible from anywhere.";
+        hero.hidden = false;
     }
 </script>
 <style>
