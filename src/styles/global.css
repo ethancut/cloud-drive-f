@@ -9,14 +9,12 @@ body {
 }
 
 :root {
-    --color-primary: #14b8a6;
-    /* vibrant teal */
-    --color-primary-dark: #0d9488;
+    --color-primary: #0d9488;
+    --color-primary-dark: #0f766e;
     --color-primary-light: #5eead4;
     --color-bg: #ffffff;
-    /* crisp white */
     --color-bg-soft: #f1f5f4;
-    /* soft gray */
     --color-text: #374151;
-    /* soft gray text */
+    --color-text-light: #0f766e;
+    --color-text-dark: #134e4a;
 }

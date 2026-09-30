@@ -4,55 +4,57 @@ import CloudIcon from "../static/cloud.svg";
 ---
 
 <header class="header" id="header">
-  <div class="header__content">
-    <h1 class="header__title">
-      <CloudIcon style="height: 1.2em; width: 1.2em;" />
-      <a
-        href="/"
-        style=" font-size: 1.5rem; text-decoration: none; color: inherit; -webkit-text-stroke: 0.25rem black;  paint-order: stroke fill;"
-        >Drive</a
-      >
-    </h1>
+  <div class="header__container">
+    <a href="/" class="header__title"
+      ><CloudIcon class="header__logo" />
+      <span class="header__name">Drive</span></a
+    >
     <nav class="header__nav">
       <ul class="header__nav-list">
-        <li class="header__nav-item"><a href="/">Home</a></li>
-        <li class="header__nav-item"><a href="/about">About</a></li>
-        <li class="header__nav-item"><a href="/contact">Contact</a></li>
-        <li class="header__nav-item"><a href="/login">Login</a></li>
-        <li class="header__nav-item"><a href="/register">Register</a></li>
-        <li class="header__nav-item" id="dashboard-btn">
-          <a href="/dashboard">Dashboard</a>
-        </li>
-        <li class="header__nav-item" id="logout-btn">
-          <button class="logout-btn">Logout</button>
-        </li>
+        <li><a class="nav-link" href="/">Home</a></li>
+        <li><a class="nav-link" href="/about">About</a></li>
+        <li><a class="nav-link" href="/contact">Contact</a></li>
       </ul>
     </nav>
+    <div class="header__actions">
+      <a href="/login" class="nav-link auth-guest">Login</a>
+      <a href="/register" class="nav-link auth-guest">Register</a>
+
+      <!-- hidden by default -->
+      <a href="/dashboard" class="nav-link auth-user" id="dashboard-btn" hidden
+        >Dashboard</a
+      >
+      <button type="button" class="btn auth-user" id="logout-btn" hidden
+        >Logout</button
+      >
+    </div>
   </div>
 </header>
 
 <script>
-  import { clearTokens, getAccessToken, getRefreshToken } from "../utils/auth";
-  if (getRefreshToken() && getAccessToken()) {
-    document.querySelectorAll(".header__nav-item").forEach((item) => {
-      const text = item.textContent?.trim();
+  import {
+    clearTokens,
+    getAccessToken,
+    getRefreshToken,
+    redirectToLogin,
+  } from "../utils/auth";
 
-      if (text === "Login" || text === "Register") {
-        (item as HTMLElement).style.display = "none";
-      }
+  const isAuthenticated = Boolean(getRefreshToken() && getAccessToken());
+  if (isAuthenticated) {
+    document.querySelectorAll(".auth-guest").forEach((el) => {
+      (el as HTMLElement).hidden = true;
     });
 
-    const dashboardButton = document.getElementById(
-      "dashboard-btn",
-    ) as HTMLLIElement;
-    dashboardButton.style.display = "block";
+    const dashboardButton = document.getElementById("dashboard-btn");
+    const logoutBtn = document.getElementById("logout-btn");
 
-    const logoutBtn = document.getElementById("logout-btn") as HTMLLIElement;
-    logoutBtn.style.display = "block";
-
-    logoutBtn.addEventListener("click", () => {
-      clearTokens();
-      window.location.reload();
-    });
+    if (dashboardButton) dashboardButton.hidden = false;
+    if (logoutBtn) {
+      logoutBtn.hidden = false;
+      logoutBtn.addEventListener("click", () => {
+        clearTokens();
+        redirectToLogin();
+      });
+    }
   }
 </script>
