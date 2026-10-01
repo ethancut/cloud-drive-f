@@ -3,6 +3,10 @@ import "../styles/header.css";
 import CloudIcon from "../static/cloud.svg";
 ---
 
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
 <header class="header" id="header">
   <div class="header__container">
     <a href="/" class="header__title"
@@ -27,6 +31,9 @@ import CloudIcon from "../static/cloud.svg";
       <button type="button" class="btn auth-user" id="logout-btn" hidden
         >Logout</button
       >
+      <a href="#" class="icon" id="hamburger-btn">
+        <i class="fa fa-bars"></i>
+      </a>
     </div>
   </div>
 </header>
@@ -47,7 +54,6 @@ import CloudIcon from "../static/cloud.svg";
 
     const dashboardButton = document.getElementById("dashboard-btn");
     const logoutBtn = document.getElementById("logout-btn");
-
     if (dashboardButton) dashboardButton.hidden = false;
     if (logoutBtn) {
       logoutBtn.hidden = false;
@@ -57,4 +63,15 @@ import CloudIcon from "../static/cloud.svg";
       });
     }
   }
+
+  const hamburgerBtn = document.getElementById(
+    "hamburger-btn",
+  ) as HTMLAnchorElement;
+  const headerNav = document.querySelector(".header__nav") as HTMLElement;
+
+  hamburgerBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    headerNav.style.display =
+      headerNav.style.display === "block" ? "none" : "block";
+  });
 </script>

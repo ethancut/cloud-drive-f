@@ -11,14 +11,13 @@ import FileList from "../components/FileList.astro";
     <FileList />
   </div>
   <div id="upload-div">
-    <h3>Upload Files</h3>
+    <h2 style="color: var(--color-text-dark)">Upload Files</h2>
     <Upload />
   </div>
 </Layout>
 
 <style>
   #upload-div {
-    /*center the div */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,14 +31,13 @@ import FileList from "../components/FileList.astro";
     padding: 28px;
     margin: 24px auto;
     max-width: 95vw;
-    /* padding-bottom: ; */
   }
   .h {
     margin-top: 0;
     font-size: 2.5rem;
     margin-bottom: 20px;
     text-align: center;
-    color: #0e1b1d;
+    color: var(--color-text-dark);
   }
   #dashboard {
     width: 100%;
