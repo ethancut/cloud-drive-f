@@ -254,11 +254,42 @@ import { formatSize } from "../utils/formatSize";
     background: #eeeeee;
   }
   .upload-container {
+    display: flex;
+    flex-direction: column;
     background: white;
     border-radius: 12px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     padding: 28px;
     margin: 0 24px 24px;
     border-top: none; /* remove the dotted line */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .upload-btn {
+    margin-top: 1rem;
+    background-color: var(--color-primary-dark);
+    border-radius: 0.5rem;
+    border: 2px solid darkslategray;
+    padding: 0.2rem 0.4rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .upload-btn:hover {
+    background-color: var(--color-text-dark);
+  }
+  .upload-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    background-color: #94a3b8;
+    border-color: #cbd5e1;
+    color: #f1f5f9;
+    box-shadow: none;
+    text-shadow: none;
+    pointer-events: none;
+  }
+  .fileInput {
+    text-align: center;
   }
 </style>
