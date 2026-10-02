@@ -3,7 +3,7 @@
   border-collapse: collapse;
   margin-top: 20px;
   font-size: 0.9rem;
-  table-layout: fixed;
+  /* table-layout: fixed; */
 }
 
 #file-list-table th {
@@ -172,7 +172,6 @@
   height: 16px;
 }
 
-
 #file-list-table tbody tr:hover .del-button,
 #file-list-table tbody tr:hover .download-button,
 #file-list-table tbody tr:hover .rename-button {
@@ -191,4 +190,12 @@
 #file-list-table tbody tr:hover.selected td {
   background-color: #c6f1e6;
   cursor: default;
+}
+
+@media (max-width: 640px) {
+  #file-list-table tbody tr .del-button,
+  #file-list-table tbody tr .download-button,
+  #file-list-table tbody tr .rename-button {
+    visibility: visible;
+  }
 }
