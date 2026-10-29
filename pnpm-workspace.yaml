@@ -3,4 +3,8 @@ allowBuilds:
   sharp: true
   workerd: false
 minimumReleaseAgeExclude:
-  - astro@6.3.8
+  - astro@6.3.8 || 7.4.4
+  - '@astrojs/cloudflare@14.4.3'
+  - '@astrojs/markdown-satteri@0.4.6'
+  - '@astrojs/prism@4.1.2'
+  - '@astrojs/telemetry@3.4.2'

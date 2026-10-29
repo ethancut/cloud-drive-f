@@ -1,0 +1,15 @@
+---
+import "../styles/modal.css"
+import UploadComponent from "../components/Upload.astro"
+---
+
+<dialog id="upload-modal" class="up-modal">
+  <div class="modal-box">
+    <button id="closeBtn" class="modal-close" data-close-modal>x</button>
+  <UploadComponent/>  
+  </div>
+</dialog>
+  <script>
+  import "../scripts/files/modal.ts";
+  </script>
+

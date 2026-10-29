@@ -63,10 +63,15 @@ tbody.addEventListener("click", async (e) => {
                 row.querySelector(".col-name")!.textContent = name;
             });
             break;
+        case "more":
+            // TODO: Implement  logic for more action 
+            console.log("More action clicked for file:", file);
+            break;
     }
 })
 
 tbody.addEventListener("dblclick", async (e) => {
+    if ((e.target as HTMLElement).closest("button[data-action]")) return;
     const row = (e.target as HTMLElement).closest("tr");
     const file = row && files.get(row.dataset.id ?? "");
     if (!row || !file) return;
