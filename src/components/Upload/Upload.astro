@@ -247,6 +247,7 @@ import { getAccessToken, refreshAccessToken } from "../../utils/auth";
       border-color 0.2s,
       background 0.2s;
     position: relative;
+    
   }
   .dropzone:hover,
   .dropzone.drag-over {
@@ -291,5 +292,10 @@ import { getAccessToken, refreshAccessToken } from "../../utils/auth";
   }
   .fileInput {
     text-align: center;
+  }
+  @media (max-width: 640px) {
+    .dropzone {
+      padding: 0;
+    }
   }
 </style>

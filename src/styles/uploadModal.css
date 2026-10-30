@@ -19,13 +19,15 @@
 .up-modal {
   border: none;
   padding: 0;
-  max-width: none;
+  width: 100%;
+  background: none;
+
 }
 
 
 
 .modal-box {
-  background: white;
+  background: none;
   width: 90%;
   max-width: 400px;
   margin: 0 auto;
@@ -37,8 +39,8 @@
 
 .modal-close {
   position: absolute;
-  right: 12px;
-  top: 8px;
+  right: 50px;
+  top: 20px;
   font-size: 24px;
   border: none;
   background: none;
