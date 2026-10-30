@@ -1,5 +1,5 @@
 ---
-import { formatSize } from "../utils/formatSize";
+import { formatSize } from "../../utils/formatSize";
 ---
 
 <div class="upload-container">
@@ -19,8 +19,8 @@ import { formatSize } from "../utils/formatSize";
   <div class="toast" id="toast"></div>
 </div>
 <script>
-  import { formatSize } from "../utils/formatSize";
-  import { getAccessToken, refreshAccessToken } from "../utils/auth";
+import { formatSize } from "../../utils/formatSize";
+import { getAccessToken, refreshAccessToken } from "../../utils/auth";
   interface StagedFile {
     file: File;
     id: string;

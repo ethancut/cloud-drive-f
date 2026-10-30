@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import FileList from "../components/FileList.astro";
-import Modal from "../components/Modal.astro"
+import Modal from "../components/Upload/UploadModal.astro"
 import UploadIcon from "../static/upload.svg"
 import "../styles/dashboard.css"
 ---
@@ -10,7 +10,7 @@ import "../styles/dashboard.css"
   <div class="main-content" id="dashboard">
     <h1 class="h">Dashboard</h1>
     <button id="openBtn" data-open-modal="upload-modal"><UploadIcon width=24px height=24px class="upload-icon"/></button>
-<Modal/>
+    <Modal/>
     <FileList />
   </div>
 </Layout>
